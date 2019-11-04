@@ -20,11 +20,10 @@ def read_node_matrix( reader, name ):
     return node.mat()
 
 # read image
-plt.ion()
-raw_img = cv2.imread('IMG_9030.jpg')
+#
+raw_img = cv2.imread('IMG_6572.JPG')
 plt.figure(1)
 plt.imshow(raw_img)
-plt.show()
 
 # convert to gray scale image
 gray_img = cv2.cvtColor(raw_img, cv2.COLOR_BGR2GRAY)
@@ -47,5 +46,13 @@ if ids is not None:
     makers_img = aruco.drawDetectedMarkers(raw_img.copy(), corners, ids)
     plt.figure(2)
     plt.imshow(makers_img, origin='upper')
-    plt.show()
-    plt.pause(1000)
+
+(rvecs, tvecs, _) = aruco.estimatePoseSingleMarkers(corners, 0.063, camera_matrix, dist_coeffs)
+
+axis_img = raw_img.copy()
+for i in range(ids.size):
+    axis_img = aruco.drawAxis(axis_img, camera_matrix, dist_coeffs, rvecs[i], tvecs[i], 0.05)
+
+plt.figure(3)
+plt.imshow(axis_img, origin='upper')
+plt.show()
