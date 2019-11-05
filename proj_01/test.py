@@ -6,6 +6,7 @@ import cv2.aruco as aruco
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
+import time
 
 def read_node_real( reader, name ):
     node = reader.getNode( name )
@@ -21,7 +22,7 @@ def read_node_matrix( reader, name ):
 
 # read image
 #
-raw_img = cv2.imread('IMG_6572.JPG')
+raw_img = cv2.imread('IMG_6578.JPG')
 plt.figure(1)
 plt.imshow(raw_img)
 
@@ -52,6 +53,14 @@ if ids is not None:
 axis_img = raw_img.copy()
 for i in range(ids.size):
     axis_img = aruco.drawAxis(axis_img, camera_matrix, dist_coeffs, rvecs[i], tvecs[i], 0.05)
+    print(ids[i])
+    print(rvecs[i])
+    print(tvecs[i])
+    print()
+
+r = np.zeros((1,3),dtype='float64')
+t = np.zeros((1,3),dtype='float64')
+axis_img = aruco.drawAxis(axis_img, camera_matrix, dist_coeffs, r, t, 0.05)
 
 plt.figure(3)
 plt.imshow(axis_img, origin='upper')
